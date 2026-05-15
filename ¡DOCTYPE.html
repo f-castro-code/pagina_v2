@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Profesional | Fernando Castro</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #3b82f6;
+            --accent: #e11d48; /* Color de acento añadido para Misión/Visión */
+            --light-bg: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            scroll-behavior: smooth;
+            padding-top: 76px; /* Espacio para el navbar fijo */
+        }
+
+        /* BOTÓN VOLVER ARRIBA */
+        .btn-scroll-top {
+            position: fixed;
+            bottom: 30px; /* Movido abajo a la derecha, es más estándar y profesional */
+            right: 30px;
+            z-index: 2000;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .btn-scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .btn-scroll-top:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+            color: white;
+        }
+
+        /* NAV INTELIGENTE Y PROFESIONAL */
+        .navbar-custom {
+            background: rgba(15, 23, 42, 0.85) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease-in-out;
+            padding: 15px 0;
+        }
+        .navbar-custom.hide {
+            transform: translateY(-100%);
+        }
+        .navbar-brand {
+            letter-spacing: 1px;
+        }
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin: 0 5px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        /* Efecto de subrayado en el menú */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* CARRUSEL PANORÁMICO INFINITO (3 CUADRADOS PEGADOS) */
+        .panoramic-carousel {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            background: var(--primary);
+            position: relative;
+        }
+        .panoramic-track {
+            display: flex;
+            width: 200%; /* El doble de ancho para el bucle */
+            animation: scroll-panorama 15s linear infinite;
+        }
+        .panoramic-track:hover {
+            animation-play-state: paused; /* Se pausa si pones el ratón encima */
+        }
+        .panoramic-track img {
+            width: 16.6666%; /* 100% dividido entre 6 imágenes (3 originales + 3 clonadas) = 3 visibles a la vez */
+            aspect-ratio: 1 / 1; /* Las hace siempre cuadradas perfectas */
+            object-fit: cover;
+            display: block;
+            margin: 0;
+            padding: 0;
+            border-right: 2px solid rgba(255,255,255,0.05); /* Ligera separación elegante, puedes quitarla si quieres 100% pegado */
+        }
+        @keyframes scroll-panorama {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* IMÁGENES LOCALES */
+        .img-local {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* SECCIÓN CANCIÓN Y LETRA CON SCROLLBAR CUSTOM */
+        .lyrics-container {
+            max-height: 280px;
+            overflow-y: auto;
+            background: #f1f5f9;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre-line;
+            border-left: 4px solid var(--secondary);
+            color: var(--text-muted);
+        }
+        /* Scrollbar personalizado */
+        .lyrics-container::-webkit-scrollbar { width: 6px; }
+        .lyrics-container::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 10px; }
+        .lyrics-container::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
+
+        /* SECCIONES Y TARJETAS */
+        section { padding: 90px 0; border-bottom: 1px solid #e2e8f0; }
+        section:last-of-type { border-bottom: none; }
+        
+        .section-title {
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .card-custom {
+            background: white; 
+            border: none; 
+            border-radius: 16px;
+            padding: 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        /* REDES SOCIALES */
+        .btn-social {
+            transition: all 0.3s ease;
+            border-width: 2px;
+            font-weight: 500;
+        }
+        .btn-social:hover {
+            transform: scale(1.05);
+        }
+
+        /* ANIMACIONES REVEAL */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s all cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body id="inicio">
+
+    <a href="#inicio" class="btn-scroll-top" id="btnScrollTop" title="Volver al inicio">
+        <i class="bi bi-arrow-up fs-4"></i>
+    </a>
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-custom" id="navbar">
+        <div class="container">
+            <a class="navbar-brand text-white fw-bold" href="#inicio">FERNANDO CASTRO</a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="bi bi-list text-white fs-1"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto text-uppercase">
+<li class="nav-item"><a class="nav-link text-white" href="#datos-p">Datos Personales</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#datos-g">Datos Generales</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#pasatiempos">Pasatiempos o Hobbies</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#cancion">Canción Favorita</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#videojuego">Videojuego Favorito</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#mision">Misión y Visión</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#tareas">Tareas y Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#redes">Redes Sociales</a></li></ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="panoramic-carousel">
+        <div class="panoramic-track">
+            <img src="img/carrusel1.jpeg" alt="Foto 1">
+            <img src="img/carrusel2.jpeg" alt="Foto 2">
+            <img src="img/carrusel3.jpeg" alt="Foto 3">
+            <img src="img/carrusel1.jpeg" alt="Foto 1">
+            <img src="img/carrusel2.jpeg" alt="Foto 2">
+            <img src="img/carrusel3.jpeg" alt="Foto 3">
+            <img src="img/carrusel1.jpeg" alt="Foto 1">
+            <img src="img/carrusel2.jpeg" alt="Foto 2">
+            <img src="img/carrusel3.jpeg" alt="Foto 3">
+            <img src="img/carrusel1.jpeg" alt="Foto 1">
+            <img src="img/carrusel2.jpeg" alt="Foto 2">
+            <img src="img/carrusel3.jpeg" alt="Foto 3">
+        </div>
+    </div>
+
+    <div class="container">
+        
+<!-- 1. DATOS PERSONALES -->
+        <section id="datos-p" class="reveal">
+            <h2 class="section-title">1. Datos Personales</h2>
+            <div class="card-custom shadow-sm">
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-4 text-center">
+                        <div class="position-relative d-inline-block">
+                            <img src="img/perfil.jpeg" alt="Fernando Castro" class="img-local shadow" style="border: 4px solid #fff;">
+                            <span class="position-absolute bottom-0 end-0 badge rounded-pill bg-success p-2 border border-light">
+                                <span class="visually-hidden">Estado</span> Activo
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="d-flex align-items-center mb-2">
+                            <h3 class="text-primary fw-bold mb-0">Fernando Castro Vargas</h3>
+                        </div>
+                        <p class="text-secondary fw-semibold mb-3"><i class="bi bi-mortarboard-fill me-2"></i>Ingeniería de Sistemas | 7mo Semestre</p>
+                        
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <div class="p-2 border-start border-primary border-3 bg-light">
+                                    <small class="text-muted d-block text-uppercase small fw-bold">Edad</small>
+                                    <span class="fw-semibold">21 años</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border-start border-primary border-3 bg-light">
+                                    <small class="text-muted d-block text-uppercase small fw-bold">Universidad</small>
+                                    <span class="fw-semibold">U. Salesiana de Bolivia</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border-start border-primary border-3 bg-light">
+                                    <small class="text-muted d-block text-uppercase small fw-bold">Identidad</small>
+                                    <span class="fw-semibold">Boliviano</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="p-2 border-start border-primary border-3 bg-light">
+                                    <small class="text-muted d-block text-uppercase small fw-bold">Estado</small>
+                                    <span class="fw-semibold">Resfriado</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DATOS GENERALES -->
+        <section id="datos-g" class="reveal">
+            <h2 class="section-title">2. Datos Generales</h2>
+            <div class="row g-4">
+                <!-- Ubicación y Alcance -->
+                <div class="col-md-4">
+                    <div class="card-custom text-center h-100">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-geo-alt-fill fs-1 text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold">Ubicación Actual</h5>
+                        <p class="text-muted">La Paz, Bolivia<br>Residente en zona central</p>
+                    </div>
+                </div>
+
+                <!-- Enfoque Técnico -->
+                <div class="col-md-4">
+                    <div class="card-custom text-center h-100">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-code-slash fs-1 text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold">Stack Tecnológico</h5>
+                        <div class="d-flex flex-wrap justify-content-center gap-1">
+                            <span class="badge bg-dark-subtle text-dark">Java</span>
+                            <span class="badge bg-dark-subtle text-dark">Python</span>
+                            <span class="badge bg-dark-subtle text-dark">PHP</span>
+                            <span class="badge bg-dark-subtle text-dark">JavaScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil de Soporte -->
+                <div class="col-md-4">
+                    <div class="card-custom text-center h-100">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-tools fs-1 text-primary"></i>
+                        </div>
+                        <h5 class="fw-bold">Soporte Técnico</h5>
+                        <p class="text-muted">Conocimiento en hardware, ensamblaje y mantenimiento de sistemas Windows.</p>
+                    </div>
+                </div>
+
+                <!-- Datos de Comunicación -->
+                <div class="col-12">
+                    <div class="card-custom">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="fw-bold mb-1">Información de Contacto General</h5>
+                                <p class="text-muted mb-0">Disponible para proyectos colaborativos de software y soporte IT.</p>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <span class="me-3"><i class="bi bi-translate me-2"></i>Español (Nativo)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+<!-- 3. PASATIEMPOS -->
+        <section id="pasatiempos" class="reveal">
+            <h2 class="section-title">3. Pasatiempos</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="card-custom text-center h-100">
+                        <i class="bi bi-dribbble display-4 text-secondary mb-3 d-block"></i>
+                        <h5 class="fw-bold">Deportes</h5>
+                        <p class="text-muted mt-2 small">Pasión por el <strong>Futsal y Voleybol</strong>. Disfruto del dinamismo, la estrategia y el trabajo coordinado en equipo.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom text-center h-100">
+                        <i class="bi bi-cpu display-4 text-secondary mb-3 d-block"></i>
+                        <h5 class="fw-bold">Tecnología</h5>
+                        <p class="text-muted mt-2 small">Diagnóstico de fallas, <strong>ensamblaje de hardware</strong> y mantenimiento de equipos. Manejo de Windows y VS Code.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom text-center h-100">
+                        <i class="bi bi-film display-4 text-secondary mb-3 d-block"></i>
+                        <h5 class="fw-bold">Cine de Acción</h5>
+                        <p class="text-muted mt-2 small">Entusiasta de las películas de acción con buen ritmo. Es mi forma ideal de desconectar del código.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card-custom text-center h-100">
+                        <i class="bi bi-moon-stars display-4 text-secondary mb-3 d-block"></i>
+                        <h5 class="fw-bold">Descanso</h5>
+                        <p class="text-muted mt-2 small">Priorizo un buen descanso para recuperar energías y mantener la mente lista para resolver algoritmos complejos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CANCIÓN FAVORITA (Se mantiene igual) -->
+        <section id="cancion" class="reveal">
+            <h2 class="section-title">4. Canción Favorita</h2>
+            <div class="card-custom">
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <h3 class="fw-bold text-primary">Un Preview</h3>
+                        <p class="text-secondary fw-semibold mb-4">Bad Bunny</p>
+                        <div class="lyrics-container">
+                            <!-- Letra abreviada para el ejemplo -->
+                            Ven acá, pa' ponerte algo, pa' ponerte un preview...
+                            Baby, yo sé que cuando te pruebe yo me vo'a enamorar.
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="ratio ratio-16x9 shadow-sm rounded-4 overflow-hidden h-100">
+                            <iframe src="https://www.youtube.com/embed/GeLbtE7kpXY" title="YouTube video" allowfullscreen style="border: none;"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. VIDEOJUEGO FAVORITO -->
+        <section id="videojuego" class="reveal">
+            <h2 class="section-title">5. Videojuego Favorito</h2>
+            <div class="card-custom bg-dark text-white overflow-hidden p-0">
+                <div class="row g-0 align-items-stretch h-100">
+                    <div class="col-md-5">
+                        <img src="img/l4d2_portada.jpg" alt="Left 4 Dead 2" class="img-fluid h-100 w-100" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-7 p-5">
+                        <h2 class="display-6 fw-bold text-danger mb-3">LEFT 4 DEAD 2</h2>
+                        <div class="bg-danger mb-4" style="height: 3px; width: 60px;"></div>
+                        <p class="fs-5 text-light opacity-75 mb-4">
+                            Mi título preferido por su enfoque <strong>multijugador cooperativo</strong>. Me encanta la libertad que ofrece el soporte de mods interesantes.
+                        </p>
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="bi bi-controller text-danger me-2"></i> <strong>Género:</strong> Survival Horror / Shooter</li>
+                            <li class="mb-3"><i class="bi bi-people-fill text-danger me-2"></i> <strong>Experiencia:</strong> Estrategia grupal contra hordas</li>
+                            <li class="mb-3"><i class="bi bi-phone text-primary me-2"></i> <strong>Otros títulos:</strong> También disfruto de Clash Royale</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. MISIÓN Y VISIÓN -->
+        <section id="mision" class="reveal">
+            <h2 class="section-title">6. Misión y Visión</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card-custom border-start border-primary border-5 h-100">
+                        <h4 class="text-primary fw-bold mb-3"><i class="bi bi-bullseye me-2"></i>Misión</h4>
+                        <p class="text-muted">Desarrollar soluciones tecnológicas innovadoras mediante la <strong>Ingeniería de Sistemas</strong>, aplicando mis conocimientos en programación y hardware para optimizar procesos en empresas bolivianas.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card-custom border-start border-5 h-100" style="border-color: var(--accent) !important;">
+                        <h4 class="fw-bold mb-3" style="color: var(--accent);"><i class="bi bi-eye me-2"></i>Visión</h4>
+                        <p class="text-muted">Consolidarme como un ingeniero referente en <strong>Bolivia</strong>, liderando la transformación digital y el soporte de infraestructura avanzada en el país.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TAREAS Y PROYECTOS -->
+        <section id="tareas" class="reveal">
+            <h2 class="section-title">7. Tareas y Proyectos Actuales</h2>
+            <div class="card-custom">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Proyecto / Tarea</th>
+                                <th>Tecnología</th>
+                                <th class="text-center">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><i class="bi bi-diagram-3 me-2 text-primary"></i>Investigación sobre Redes SDN</td>
+                                <td>Infraestructura</td>
+                                <td class="text-center"><span class="badge bg-info text-dark px-3 py-2">En Curso</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-calculator me-2 text-primary"></i>Modelos de Teoría de Colas</td>
+                                <td>Matemática Aplicada</td>
+                                <td class="text-center"><span class="badge bg-success px-3 py-2">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td><i class="bi bi-vector-pen me-2 text-primary"></i>Vectorización de Ejercicios en SVG</td>
+                                <td>HTML / CSS</td>
+                                <td class="text-center"><span class="badge bg-success px-3 py-2">Completado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="redes" class="reveal text-center">
+            <h2 class="section-title">8. Redes Sociales</h2>
+            <p class="text-muted mb-5">Conéctate conmigo a través de mis plataformas digitales.</p>
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                <a href="https://wa.me/qr/7JV4XWSRMQT3I1" target="_blank" class="btn btn-outline-success btn-lg rounded-pill px-4 btn-social">
+                    <i class="bi bi-whatsapp me-2"></i>WhatsApp
+                </a>
+                <a href="https://www.facebook.com/fernando.castro.625376" target="_blank" class="btn btn-outline-primary btn-lg rounded-pill px-4 btn-social">
+                    <i class="bi bi-facebook me-2"></i>Facebook
+                </a>
+                <a href="https://www.instagram.com/fernandocastro8136" target="_blank" class="btn btn-outline-danger btn-lg rounded-pill px-4 btn-social">
+                    <i class="bi bi-instagram me-2"></i>Instagram
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="bg-primary text-white py-5 mt-5 text-center">
+        <div class="container">
+            <h4 class="fw-bold mb-3">Fernando Castro</h4>
+            <p class="mb-0 opacity-75">© 2026 - La Paz, Bolivia. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Lógica del Navbar y Botón Top
+        let prevScrollpos = window.pageYOffset;
+        const navbar = document.getElementById("navbar");
+        const btnTop = document.getElementById("btnScrollTop");
+
+        window.onscroll = function() {
+            let currentScrollPos = window.pageYOffset;
+            
+            // Ocultar/Mostrar Navbar
+            if (prevScrollpos > currentScrollPos) {
+                navbar.classList.remove("hide");
+            } else {
+                if (currentScrollPos > 100) { // Solo oculta si bajó más de 100px
+                    navbar.classList.add("hide");
+                }
+            }
+            prevScrollpos = currentScrollPos;
+
+            // Mostrar/Ocultar botón Volver arriba
+            if (currentScrollPos > 300) {
+                btnTop.classList.add("show");
+            } else {
+                btnTop.classList.remove("show");
+            }
+
+            // Animación Reveal
+            let reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                let windowHeight = window.innerHeight;
+                let elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 80) {
+                    el.classList.add("active");
+                }
+            });
+        }
+
+        // Ejecutar reveal al cargar por si elementos ya están en pantalla
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>
